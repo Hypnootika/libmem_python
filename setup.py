@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='libmem',
-   version='0.1.00',
+   version='0.1.2',
    description='unofficial Python bindings for Libmem, made with nimpy',
    author='Hypnootika',
    packages=['libmem'],

@@ -1,5 +1,25 @@
+import array
+
 # noinspection PyUnresolvedReferences
 from . import _libmem as libmem
+
+PROTNONE = 0
+PROTR = 1
+PROTW = 2
+PROTX = 4
+PROTXR = 5
+PROTXW = 6
+PROTRW = 3
+PROTXRW = 7
+ARCHARM = 0
+ARCHARM64 = 1
+ARCHMIPS = 2
+ARCHX86 = 3
+ARCHPPC = 4
+ARCHSPARC = 5
+ARCHSYSZ = 6
+ARCHEVM = 7
+ARCHMAX = 8
 
 
 class Process:
@@ -7,13 +27,13 @@ class Process:
         self._pid = process["pid"]
         self._ppid = process["ppid"]
         self._bits = process["bits"]
-        self._start_time = process["start_time"]
+        self._start_time = process["startime"]
         self._path = process["path"]
         self._name = process["name"]
 
     def __repr__(self):
-        return (f"Name: {self._name} ppid: {self._ppid} pid: {self._pid} "
-                f"bits: {self._bits} start_time: {self._start_time} path: {self._path}")
+        return (f"Name: {self._name}, ppid: {self._ppid}, pid: {self._pid}, "
+                f"bits: {self._bits}, starttime: {self._start_time}, path: {self._path}")
 
     @property
     def name(self):
@@ -43,7 +63,7 @@ class Process:
 class Thread:
     def __init__(self, thread):
         self._tid = thread["tid"]
-        self._owner_pid = thread["owner_pid"]
+        self._owner_pid = thread["ownerpid"]
 
     def __repr__(self):
         return f"Thread: (Tid {self._tid} Pid: {self._owner_pid})"
@@ -86,7 +106,7 @@ class Module:
 
 class Symbol:
     def __init__(self, symbol):
-        self._address = symbol["address"]
+        self._address = symbol["memoryaddress"]
         self._name = symbol["name"]
 
     def __repr__(self):
@@ -125,14 +145,14 @@ class Segment:
 
 class Instruction:
     def __init__(self, instruction):
-        self._address = instruction["address"]
-        self._size = instruction["size"]
-        self._mnemonic = instruction["mnemonic"]
-        self._operands = instruction["operands"]
-        self._machinecode = instruction["machinecode"]
+        self._address: int = instruction["memoryaddress"]
+        self._size: int = instruction["size"]
+        self._bytes: list[bytes] = instruction["bytes"]
+        self._mnemonic: list[str] = instruction["mnemonic"]
+        self._op_str = instruction["opstr"]
 
     def __repr__(self):
-        return f"Address: {self.address} Size: {self.size} Mnemonic: {self.mnemonic} Operands: {self.operands} Machinecode: {self.machinecode}"
+        return f"Address: {self.address} Size: {self.size} Mnemonic: {self.mnemonic} op_str: {self.op_str} Bytes: {self.bytes}"
 
     @property
     def address(self):
@@ -144,20 +164,34 @@ class Instruction:
 
     @property
     def mnemonic(self):
-        return self._mnemonic
+        s = ""
+        return s.join([chr(e) for e in self._mnemonic]).split("\x00")[0]
 
     @property
-    def operands(self):
-        return self._operands
+    def op_str(self):
+        st = ""
+        return st.join([chr(e) for e in self._op_str]).strip("\x00")
 
     @property
-    def machinecode(self):
-        return self._machinecode
+    def bytes(self):
+        return self._bytes
 
 
 class Vmt:
     def __init__(self, vmt):
-        self.vtable = vmt["vtable"]
+        self._vtable = vmt["vtable"]
+        self._hkentries = vmt["hkentries"]
+
+    def __repr__(self):
+        return f"Vtable: {self.vtable} Hooked Entries: {self.hkentries}"
+
+    @property
+    def vtable(self):
+        return self._vtable
+
+    @property
+    def hkentries(self):
+        return self._hkentries
 
 
 def enumprocesses() -> list[Process]:
@@ -228,7 +262,7 @@ def loadmodule(path: str) -> Module:
     return Module(libmem.loadmodule(path))
 
 
-def loadmoduleex(pid: int, path: str) -> Module:
+def loadmoduleex(pid: int, path: array) -> Module:
     return Module(libmem.loadmoduleex(pid, path))
 
 
@@ -272,15 +306,19 @@ def readmemoryex(pid: int, source: int, size: int) -> list[bytes]:
     return libmem.readmemoryex(pid, source, size)
 
 
-def writememory(dest: int, source: list[bytes]) -> int:
-    return libmem.writememory(dest, source)
+def writedata(dest: int, data: array) -> int:
+    return libmem.writedata(dest, data)
+
+
+def writedataex(pid: int, dest: int, data: array) -> int:
+    return libmem.writedataex(pid, dest, data)
 
 
 def writememoryex(pid: int, dest: int, source: list[bytes]) -> int:
     return libmem.writememoryex(pid, dest, source)
 
 
-def setmemory(dest: int, byte: bytes, size: int) -> int:
+def setmemory(dest: int, byte: int, size: int) -> int:
     return libmem.setmemory(dest, byte, size)
 
 
@@ -348,7 +386,7 @@ def getarchitecture() -> int:
     return libmem.getarchitecture()
 
 
-def assemble(code: str) -> Instruction:
+def assemble(code: array) -> Instruction:
     return Instruction(libmem.assemble(code))
 
 

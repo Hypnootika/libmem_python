@@ -243,7 +243,7 @@ LM_FindProcess(lm_string_t   process_name,
 	       lm_process_t *process_out);
 
 LM_API lm_bool_t LM_CALL
-LM_IsProcessAlive(const lm_process_t *process);
+LM_IsProcessAlive( lm_process_t *process);
 
 LM_API lm_size_t LM_CALL
 LM_GetBits();
@@ -258,7 +258,7 @@ LM_EnumThreads(lm_bool_t (LM_CALL *callback)(lm_thread_t *thread,
 	       lm_void_t          *arg);
 
 LM_API lm_bool_t LM_CALL
-LM_EnumThreadsEx(const lm_process_t *process,
+LM_EnumThreadsEx( lm_process_t *process,
 		 lm_bool_t (LM_CALL *callback)(lm_thread_t *thread,
 					       lm_void_t   *arg),
 		 lm_void_t          *arg);
@@ -267,11 +267,11 @@ LM_API lm_bool_t LM_CALL
 LM_GetThread(lm_thread_t *thread_out);
 
 LM_API lm_bool_t LM_CALL
-LM_GetThreadEx(const lm_process_t *process,
+LM_GetThreadEx( lm_process_t *process,
 	       lm_thread_t        *thread_out);
 
 LM_API lm_bool_t LM_CALL
-LM_GetThreadProcess(const lm_thread_t *thread,
+LM_GetThreadProcess( lm_thread_t *thread,
 		    lm_process_t      *process_out);
 
 /* Module API */
@@ -281,7 +281,7 @@ LM_EnumModules(lm_bool_t (LM_CALL *callback)(lm_module_t *module,
 	       lm_void_t          *arg);
 
 LM_API lm_bool_t LM_CALL
-LM_EnumModulesEx(const lm_process_t *process,
+LM_EnumModulesEx( lm_process_t *process,
 		 lm_bool_t (LM_CALL *callback)(lm_module_t *module,
 					       lm_void_t   *arg),
 		 lm_void_t          *arg);
@@ -291,7 +291,7 @@ LM_FindModule(lm_string_t  name,
 	      lm_module_t *module_out);
 
 LM_API lm_bool_t LM_CALL
-LM_FindModuleEx(const lm_process_t *process,
+LM_FindModuleEx( lm_process_t *process,
 		lm_string_t         name,
 		lm_module_t        *module_out);
 
@@ -300,26 +300,26 @@ LM_LoadModule(lm_string_t  path,
 	      lm_module_t *module_out);
 
 LM_API lm_bool_t LM_CALL
-LM_LoadModuleEx(const lm_process_t *process,
+LM_LoadModuleEx( lm_process_t *process,
 		lm_string_t         path,
 		lm_module_t        *module_out);
 
 LM_API lm_bool_t LM_CALL
-LM_UnloadModule(const lm_module_t *module);
+LM_UnloadModule( lm_module_t *module);
 
 LM_API lm_bool_t LM_CALL
-LM_UnloadModuleEx(const lm_process_t *process,
+LM_UnloadModuleEx( lm_process_t *process,
 		  const lm_module_t  *module);
 
 /* Symbol API */
 LM_API lm_bool_t LM_CALL
-LM_EnumSymbols(const lm_module_t  *module,
+LM_EnumSymbols( lm_module_t  *module,
 	       lm_bool_t (LM_CALL *callback)(lm_symbol_t *symbol,
 					     lm_void_t   *arg),
 	       lm_void_t          *arg);
 
 LM_API lm_address_t LM_CALL
-LM_FindSymbolAddress(const lm_module_t *module,
+LM_FindSymbolAddress( lm_module_t *module,
 		     lm_string_t        symbol_name);
 
 LM_API lm_char_t * LM_CALL
@@ -331,13 +331,13 @@ LM_API lm_void_t LM_CALL
 LM_FreeDemangledSymbol(lm_char_t *symbol_name);
 
 LM_API lm_bool_t LM_CALL
-LM_EnumSymbolsDemangled(const lm_module_t  *module,
+LM_EnumSymbolsDemangled( lm_module_t  *module,
 			lm_bool_t (LM_CALL *callback)(lm_symbol_t *symbol,
 						      lm_void_t   *arg),
 			lm_void_t          *arg);
 
 LM_API lm_address_t LM_CALL
-LM_FindSymbolAddressDemangled(const lm_module_t *module,
+LM_FindSymbolAddressDemangled( lm_module_t *module,
 			      lm_string_t        symbol_name);
 
 /* Segment API */
@@ -347,7 +347,7 @@ LM_EnumSegments(lm_bool_t (LM_CALL *callback)(lm_segment_t *segment,
 		lm_void_t          *arg);
 
 LM_API lm_bool_t LM_CALL
-LM_EnumSegmentsEx(const lm_process_t *process,
+LM_EnumSegmentsEx( lm_process_t *process,
                   lm_bool_t (LM_CALL *callback)(lm_segment_t *segment,
 						lm_void_t    *arg),
 		  lm_void_t          *arg);
@@ -357,7 +357,7 @@ LM_FindSegment(lm_address_t  address,
 	       lm_segment_t *segment_out);
 
 LM_API lm_bool_t LM_CALL
-LM_FindSegmentEx(const lm_process_t *process,
+LM_FindSegmentEx( lm_process_t *process,
 		 lm_address_t        address,
 		 lm_segment_t       *segment_out);
 
@@ -378,7 +378,7 @@ LM_ReadMemory(lm_address_t source,
 	      lm_size_t    size);
 
 LM_API lm_size_t LM_CALL
-LM_ReadMemoryEx(const lm_process_t *process,
+LM_ReadMemoryEx( lm_process_t *process,
 		lm_address_t        source,
 		lm_byte_t          *dest,
 		lm_size_t           size);
@@ -389,7 +389,7 @@ LM_WriteMemory(lm_address_t   dest,
 	       lm_size_t      size);
 
 LM_API lm_size_t LM_CALL
-LM_WriteMemoryEx(const lm_process_t *process,
+LM_WriteMemoryEx( lm_process_t *process,
 		 lm_address_t        dest,
 		 lm_bytearray_t      source,
 		 lm_size_t           size);
@@ -400,7 +400,7 @@ LM_SetMemory(lm_address_t dest,
 	     lm_size_t    size);
 
 LM_API lm_size_t LM_CALL
-LM_SetMemoryEx(const lm_process_t *process,
+LM_SetMemoryEx( lm_process_t *process,
 	       lm_address_t        dest,
 	       lm_byte_t           byte,
 	       lm_size_t           size);
@@ -412,7 +412,7 @@ LM_ProtMemory(lm_address_t address,
 	      lm_prot_t   *oldprot_out);
 
 LM_API lm_bool_t LM_CALL
-LM_ProtMemoryEx(const lm_process_t *process,
+LM_ProtMemoryEx( lm_process_t *process,
 		lm_address_t        address,
 		lm_size_t           size,
 		lm_prot_t           prot,
@@ -423,7 +423,7 @@ LM_AllocMemory(lm_size_t size,
 	       lm_prot_t prot);
 
 LM_API lm_address_t LM_CALL
-LM_AllocMemoryEx(const lm_process_t *process,
+LM_AllocMemoryEx( lm_process_t *process,
 		 lm_size_t           size,
 		 lm_prot_t           prot);
 
@@ -432,7 +432,7 @@ LM_FreeMemory(lm_address_t alloc,
 	      lm_size_t    size);
 
 LM_API lm_bool_t LM_CALL
-LM_FreeMemoryEx(const lm_process_t *process,
+LM_FreeMemoryEx( lm_process_t *process,
 		lm_address_t        alloc,
 		lm_size_t           size);
 
@@ -442,7 +442,7 @@ LM_DeepPointer(lm_address_t        base,
 	       size_t              noffsets);
 
 LM_API lm_address_t LM_CALL
-LM_DeepPointerEx(const lm_process_t *process,
+LM_DeepPointerEx( lm_process_t *process,
 		 lm_address_t        base,
 		 const lm_address_t *offsets,
 		 lm_size_t           noffsets);
@@ -455,7 +455,7 @@ LM_DataScan(lm_bytearray_t data,
 	    lm_size_t      scansize);
 
 LM_API lm_address_t LM_CALL
-LM_DataScanEx(const lm_process_t *process,
+LM_DataScanEx( lm_process_t *process,
 	      lm_bytearray_t      data,
 	      lm_size_t           datasize,
 	      lm_address_t        address,
@@ -468,7 +468,7 @@ LM_PatternScan(lm_bytearray_t pattern,
 	       lm_size_t      scansize);
 
 LM_API lm_address_t LM_CALL
-LM_PatternScanEx(const lm_process_t *process,
+LM_PatternScanEx( lm_process_t *process,
 		 lm_bytearray_t      pattern,
 		 lm_string_t         mask, /* Example: "xx??x?x", where 'x' == exact pattern byte match, and '?' == any byte */
 		 lm_address_t        address,
@@ -480,7 +480,7 @@ LM_SigScan(lm_string_t  signature,
 	   lm_size_t    scansize);
 
 LM_API lm_address_t LM_CALL
-LM_SigScanEx(const lm_process_t *process,
+LM_SigScanEx( lm_process_t *process,
 	     lm_string_t         signature, /* Example: "DE AD BE EF ?? ?? 13 37" */
 	     lm_address_t        address,
 	     lm_size_t           scansize);
@@ -524,7 +524,7 @@ LM_CodeLength(lm_address_t machine_code,
 	      lm_size_t    min_length);
 
 LM_API lm_size_t LM_CALL
-LM_CodeLengthEx(const lm_process_t *process,
+LM_CodeLengthEx( lm_process_t *process,
 		lm_address_t        machine_code,
 		lm_size_t           min_length);
 
@@ -535,7 +535,7 @@ LM_HookCode(lm_address_t  from,
 	    lm_address_t *trampoline_out);
 
 LM_API lm_size_t LM_CALL
-LM_HookCodeEx(const lm_process_t *process,
+LM_HookCodeEx( lm_process_t *process,
 	      lm_address_t        from,
 	      lm_address_t        to,
 	      lm_address_t       *trampoline_out);
@@ -546,7 +546,7 @@ LM_UnhookCode(lm_address_t from,
 	      lm_size_t    size);
 
 LM_API lm_bool_t LM_CALL
-LM_UnhookCodeEx(const lm_process_t *process,
+LM_UnhookCodeEx( lm_process_t *process,
 		lm_address_t        from,
 		lm_address_t        trampoline,
 		lm_size_t           size);
@@ -566,7 +566,7 @@ LM_VmtUnhook(lm_vmt_t *vmt,
 	     lm_size_t fn_index);
 
 LM_API lm_address_t LM_CALL
-LM_VmtGetOriginal(const lm_vmt_t *vmt,
+LM_VmtGetOriginal( lm_vmt_t *vmt,
 		  lm_size_t       fn_index);
 
 LM_API lm_void_t LM_CALL
