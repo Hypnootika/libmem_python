@@ -56,7 +56,7 @@ Alternatively use the current Release
 After installation, you can import libmem_python in your Python scripts to start manipulating memory directly from Python.
 
 ### Contributing
-Contributions to libmem_python are welcome! Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests to us.
+Contributions to libmem_python are welcome.
 
 ### License
 This project is licensed under the MIT License - see the LICENSE file for details.
