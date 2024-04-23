@@ -1,5 +1,5 @@
 # noinspection PyUnresolvedReferences
-import _libmem as libmem
+from . import _libmem as libmem
 
 
 class Process:
@@ -12,7 +12,7 @@ class Process:
         self._name = process["name"]
 
     def __repr__(self):
-        return (f"Name: {self._name} ppid: {self._ppid} pid: {self._pid}"
+        return (f"Name: {self._name} ppid: {self._ppid} pid: {self._pid} "
                 f"bits: {self._bits} start_time: {self._start_time} path: {self._path}")
 
     @property
