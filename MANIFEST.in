@@ -1,0 +1,3 @@
+recursive-include libmem *.pyd
+recursive-include libmem *.so
+recursive-include libmem *.pyi
