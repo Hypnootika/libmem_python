@@ -53,7 +53,7 @@ python setup.py sdist bdist_wheel
 Alternatively use the current Release
 
 ### Usage
-After installation, you can import libmem_python in your Python scripts to start manipulating memory directly from Python.
+After installation, you can import `libmem` in your Python scripts to start manipulating memory directly from Python.
 
 ### Contributing
 Contributions to libmem_python are welcome.
