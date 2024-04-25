@@ -1,3 +1,7 @@
+### attention, repo will soon get merged with the one that provides both Nim and Python bindings.
+
+
+
 # libmem_python
 
 **libmem_python** provides unofficial Python bindings for Libmem, utilizing nimpy to bridge Python with the powerful memory manipulation capabilities of Libmem. This project allows Python developers to leverage Libmem's features directly from Python scripts.
